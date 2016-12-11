@@ -48,14 +48,15 @@ grid = [[ 8, 02, 22, 97, 38, 15, 00, 40, 00, 75, 04, 05, 07, 78, 52, 12, 50, 77,
 down_max = 1
 late_max = 1
 vert_max = 1
-hori_maz = 1
+hori_max = 1
 
 for i in 0..16 do
   for j in 0..16 do
-    down = 1
-    late = 1
+    down = grid[i][j] * grid[i+1][j] * grid[i+2][j] * grid[i+3][j]
+    late = grid[i+3][j] * grid[i+2][j+1] * grid[i+1][j+2] * grid[i][j+3]
     vert = grid[i][j] * grid[i+1][j+1] * grid[i+2][j+2] * grid[i+3][j+3]
-    hori = 1
+    hori = grid[i][j] * grid[i][j+1] * grid[i][j+2] * grid[i][j+3]
+=begin
     if i == 6 and j == 8
       ap "VERT_MAX = #{vert_max}"
       ap "vert = #{vert}"
@@ -69,6 +70,16 @@ for i in 0..16 do
       ap grid[i+2][j+2]
       ap grid[i+3][j+3]
       ap "___"
+    end
+=end
+    if late > late_max
+      late_max = late
+    end
+    if down > down_max
+      down_max = down
+    end
+    if hori > hori_max
+      hori_max = hori
     end
     if vert > vert_max
       vert_max = vert
@@ -85,4 +96,12 @@ for i in 0..16 do
 end
 
 ap vert_max
+ap hori_max
+ap down_max
+ap late_max
+
+
+
+
+
 
