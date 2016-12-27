@@ -22,46 +22,80 @@
 #  What is the value of the first triangle number
 # to have over five hundred divisors?
 #
+#
+# vencedor = 16240435200
+# tiene al menos 22 divisores
 
 require 'awesome_print'
-
-OBJ = 50
+puts "I have PID #{Process.pid}"
+OBJ = 22
 
 fin = true
 
-def triangle_number (n)
-  return n if n == 1
-  return n + triangle_number(n-1)
-end
+
+
 
 i = 3
 
+divis_max = 0
+num_max = 0
+i_max = 3
+
 start = Time.now
+start_max = Time.now
+finish = Time.now
+finish_max = Time.now
+
+desc_start = Time.now
+desc_fin = Time.now
+
 actual = 3
+
+Signal.trap("TERM") {
+  ap "i = #{i}"
+  ap "triangular mas divisores: #{num_max}"
+  ap "cantidad de divisores: #{divis_max}"
+  ap "es el numero: #{i_max}"
+  ap "le llevo #{finish_max - start_max}"
+  ap "ahora se demora: #{desc_fin - desc_fin}"
+  ap "tiempo de vida: #{finish - Time.now}"
+  puts
+}
+
 while(fin) do
   actual += i
 
   k = 2
   reduc = actual
-  divis = []
+  divis = 2
+  
+  desc_start = Time.now if (i % 1000) == 0
   while k <= reduc do
     if (reduc%k) == 0
-      divis << k
+      divis += 1
       reduc = reduc/k
       k = 2
     else
       k += 1
     end
   end
+  desc_fin = Time.now if (i % 1000) == 0
   #ap actual
   #ap divis
-  fin = false if (divis.count+2) >= OBJ
+  if divis > divis_max
+    divis_max = divis
+    i_max = i
+    num_max = actual
+    start_max = desc_start
+    finish_max = desc_fin
+  end
+  fin = false if divis >= OBJ
   i += 1
 end
 finish = Time.now
 
 ap actual
-ap divis.count + 2
+ap divis_max
 ap i
 ap finish - start
 
