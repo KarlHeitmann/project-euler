@@ -25,17 +25,24 @@
 
 require 'awesome_print'
 
+OBJ = 50
+
+fin = true
 
 def triangle_number (n)
   return n if n == 1
   return n + triangle_number(n-1)
 end
 
-10.times do |i|
-  j = i+3
-  cand = triangle_number j
+i = 3
+
+start = Time.now
+actual = 3
+while(fin) do
+  actual += i
+
   k = 2
-  reduc = cand
+  reduc = actual
   divis = []
   while k <= reduc do
     if (reduc%k) == 0
@@ -46,8 +53,15 @@ end
       k += 1
     end
   end
-  ap cand
-  ap divis
+  #ap actual
+  #ap divis
+  fin = false if (divis.count+2) >= OBJ
+  i += 1
 end
+finish = Time.now
 
+ap actual
+ap divis.count + 2
+ap i
+ap finish - start
 
